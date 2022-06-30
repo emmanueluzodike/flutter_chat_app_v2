@@ -13,8 +13,8 @@ class AutoMethods{
   Future signInWithEmailAndPassword(String email, String password) async {
     try{
       UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      User firebaseUser = result.user;
-      return _userFromFirebaseUser(firebaseUser);
+      User? firebaseUser = result.user;
+      return _userFromFirebaseUser(firebaseUser!);
       
     }catch(e){
         print(e.toString());
@@ -24,8 +24,8 @@ class AutoMethods{
   Future signUpwithEmailAndPassword(String email, String password) async{
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      User firebaseUser = result.user;
-      return _userFromFirebaseUser(firebaseUser);
+      User? firebaseUser = result.user;
+      return _userFromFirebaseUser(firebaseUser!);
 
     }catch(e){
       print(e.toString());
