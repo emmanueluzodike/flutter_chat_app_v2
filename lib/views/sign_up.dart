@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app_v2/services/auth.dart';
+import 'package:flutter_chat_app_v2/views/chat_room_screen.dart';
 
 import '../widgets/widget.dart';
 
 class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
-
+  //const SignUp({Key? key}) : super(key: key);
+  final Function toggle;
+  SignUp(this.toggle);
   @override
   State<SignUp> createState() => _SignUpState();
 }
@@ -22,6 +24,8 @@ class _SignUpState extends State<SignUp> {
       new TextEditingController();
   TextEditingController passwordTextEditingController =
       new TextEditingController();
+  TextEditingController confirmPasswordTextEditingController =
+      new TextEditingController();
 
   signMeUp() {
     if (formKey.currentState!.validate()) {
@@ -31,7 +35,12 @@ class _SignUpState extends State<SignUp> {
       autoMethods
           .signInWithEmailAndPassword(emailTextEditingController.text,
               passwordTextEditingController.text)
-          .then((val){print("$val");});
+          .then((val) {
+        //print("${val.uid}");
+
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => ChatRoom()));
+      });
     }
   }
 
@@ -92,6 +101,21 @@ class _SignUpState extends State<SignUp> {
                               controller: passwordTextEditingController,
                               style: simpleTextStyle(),
                               decoration: textFieldInputDecoration("password"),
+                            ),
+                            TextFormField(
+                              obscureText: true,
+                              validator: (val) {
+                                return val!.isEmpty ||
+                                        val.length < 4 ||
+                                        val !=
+                                            passwordTextEditingController.text
+                                    ? "Passwords do not match"
+                                    : null;
+                              },
+                              controller: confirmPasswordTextEditingController,
+                              style: simpleTextStyle(),
+                              decoration:
+                                  textFieldInputDecoration("Confirm password"),
                             ),
                           ],
                         ),
@@ -155,11 +179,19 @@ class _SignUpState extends State<SignUp> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        child: const Text(
-                          "Sign Up with Google",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
+                        child: GestureDetector(
+                          onTap: (){
+                            widget.toggle();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: const Text(
+                              "Sign Up with Google",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ),
+                            ),
                           ),
                         ),
                       ),
