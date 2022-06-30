@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_app_v2/widgets/widget.dart';
 
-class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+import '../widgets/widget.dart';
+
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
+
+  TextEditingController userNameTextEdittingController = new TextEditingController();
+  TextEditingController emailTextEdittingController = new TextEditingController();
+  TextEditingController passwordTextEdittingController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +31,17 @@ class _SignInState extends State<SignIn> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
+                  controller: userNameTextEdittingController,
+                  style: simpleTextStyle(),
+                  decoration: textFieldInputDecoration("username"),
+                ),
+                TextField(
+                  controller: emailTextEdittingController,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration("email"),
                 ),
                 TextField(
+                  controller: passwordTextEdittingController,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration("password"),
                 ),
@@ -66,7 +78,7 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    "Sign In",
+                    "Sign Up",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 17,
@@ -87,7 +99,7 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    "Sign In with Google",
+                    "Sign Up with Google",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 17,
@@ -101,11 +113,11 @@ class _SignInState extends State<SignIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account? ",
+                      "Already have an account? ",
                       style: simpleTextStyle2(),
                     ),
                     const Text(
-                      "Register now",
+                      "SignIn now",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 17,

@@ -30,3 +30,10 @@ TextStyle simpleTextStyle() {
     fontSize: 16,
   );
 }
+
+TextStyle simpleTextStyle2() {
+  return const TextStyle(
+    color: Colors.white,
+    fontSize: 17,
+  );
+}
