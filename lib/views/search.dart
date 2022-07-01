@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app_v2/services/database.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 import '../widgets/widget.dart';
@@ -11,6 +12,11 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+
+  TextEditingController searchTextEditingController =
+      new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 children: [
                   const Expanded(
                       child: TextField(
+                    //controller: searchTextEditingController,
                     style: TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: "Search username",
@@ -37,17 +44,24 @@ class _SearchScreenState extends State<SearchScreen> {
                       border: InputBorder.none,
                     ),
                   )),
-                  Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [
-                            const Color(0x36FFFFFF),
-                            const Color(0x0FFFFFFF),
-                          ]),
-                          borderRadius: BorderRadius.circular(40)),
-                      padding: EdgeInsets.all(12),
-                      child: Image.asset("assests/images/search_white.png"))
+                  GestureDetector(
+                    onTap: () {
+                      databaseMethods
+                          .getUserByUsername(searchTextEditingController.text)
+                          .then((val) => print(val.toString()));
+                    },
+                    child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              const Color(0x36FFFFFF),
+                              const Color(0x0FFFFFFF),
+                            ]),
+                            borderRadius: BorderRadius.circular(40)),
+                        padding: EdgeInsets.all(12),
+                        child: Image.asset("assests/images/search_white.png")),
+                  )
                 ],
               ),
             )

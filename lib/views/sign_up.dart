@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app_v2/services/auth.dart';
+import 'package:flutter_chat_app_v2/services/database.dart';
 import 'package:flutter_chat_app_v2/views/chat_room_screen.dart';
 
 import '../widgets/widget.dart';
@@ -16,6 +19,7 @@ class _SignUpState extends State<SignUp> {
   bool isLoading = false;
 
   AutoMethods autoMethods = new AutoMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEditingController =
@@ -38,6 +42,12 @@ class _SignUpState extends State<SignUp> {
           .then((val) {
         //print("${val.uid}");
 
+        Map<String, String> userInfoMap = {
+          "name": userNameTextEditingController.text,
+          "email": emailTextEditingController.text,
+        };
+
+        databaseMethods.uploadUserInfo(userInfoMap);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => ChatRoom()));
       });
@@ -180,7 +190,7 @@ class _SignUpState extends State<SignUp> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             widget.toggle();
                           },
                           child: Container(
@@ -205,12 +215,17 @@ class _SignUpState extends State<SignUp> {
                             "Already have an account? ",
                             style: simpleTextStyle2(),
                           ),
-                          const Text(
-                            "SignIn now",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                              decoration: TextDecoration.underline,
+                          GestureDetector(
+                            onTap: () {
+                              widget.toggle();
+                            },
+                            child: const Text(
+                              "SignIn now",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
                           ),
                           const SizedBox(
